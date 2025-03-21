@@ -15,7 +15,7 @@ prs
 ```{r}
 for (i in seq_len(nrow(prs))) {
   if (prs$mergeable[i] == "MERGEABLE") {
-    cmd = paste("gh pr merge", prs$number[i], "--auto")
+    cmd = paste("gh pr merge", prs$number[i], "--merge --auto")
     system(cmd)
   }
 }
