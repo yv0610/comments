@@ -1,6 +1,8 @@
 # 意见
 
-这课太难了。
+请写出你对课程的意见。
 
+## 测试 GitHub Action 自动合并
 
-test
+添加一个 GitHub Actions 脚本，当 PR 与 origin 没有冲突且只是新增内容的时候，自动 Merge。
+
