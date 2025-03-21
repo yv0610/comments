@@ -1,0 +1,44 @@
+# 合并 Pull Request
+
+获取所有 Open 状态的 PR 列表，然后合并所有可合并的 PR。
+
+```{r}
+# 获取 PR 列表
+cmd = "gh pr list -s open --json number,title,mergeable"
+prs = jsonlite::fromJSON(system(cmd, intern = TRUE))
+
+prs
+```
+
+对于没有冲突的 PR，直接合并。
+
+```{r}
+for (i in seq_len(nrow(prs))) {
+  if (prs$mergeable[i] == "MERGEABLE") {
+    cmd = paste("gh pr merge", prs$number[i], "--auto")
+    system(cmd)
+  }
+}
+```
+
+对于有冲突的 PR，需要手动解决冲突。
+
+```{r}
+prs[prs$mergeable != "MERGEABLE", ]
+```
+
+实施步骤：
+
+```bash
+git pull
+git fetch origin pull/123/head:pr-123  # 123 是 PR 号
+git merge pr-123
+```
+
+解决冲突后，提交合并。
+
+```bash
+git add <冲突文件>
+git commit -m "Merge PR #123"
+git push
+```
