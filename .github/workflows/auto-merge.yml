@@ -15,20 +15,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # 获取最近两次提交用于 diff
+          fetch-depth: 2  # 获取最近两次提交以确保 diff 可用
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
 
       - name: Check for merge conflicts
         run: |
-          git fetch origin ${{ github.base_ref }}
           if ! git merge-base --is-ancestor origin/${{ github.base_ref }} HEAD; then
             echo "Merge conflict detected, exiting."
             exit 1
           fi
 
-      - name: Check if only new content was added
+      - name: Check if only new files were added
         run: |
-          CHANGED_FILES=$(git diff --name-status HEAD^ | awk '{print $1}')
-          if echo "$CHANGED_FILES" | grep -qE '^(M|D)'; then
+          # 计算 PR 相对于 base branch 的变更
+          DIFF_OUTPUT=$(git diff --name-status origin/${{ github.base_ref }}...HEAD)
+          
+          echo "Git diff output:"
+          echo "$DIFF_OUTPUT"
+
+          # 检查是否有修改 (M) 或删除 (D) 的文件
+          if echo "$DIFF_OUTPUT" | grep -qE '^(M|D)'; then
             echo "PR contains modified or deleted files, not merging."
             exit 1
           fi
