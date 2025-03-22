@@ -61,6 +61,7 @@
 给每个页面添加一个 `#` 标题，这样就可以在导航栏中看到了。
 
 ```{r}
+#| eval: false
 library("stringr")
 
 files = list.files(path = ".", pattern = "group[0-9]{2}.md", full.names = TRUE)
