@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Comments"
+  repo-url: https://github.com/D2RS-2025spring/comments
   repo-actions: [edit, source]
   navbar:
     left:
