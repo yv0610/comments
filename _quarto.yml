@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Comments"
+  repo-actions: [edit, source]
   navbar:
     left:
       - index.qmd
