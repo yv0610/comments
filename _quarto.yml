@@ -1,0 +1,70 @@
+project:
+  type: website
+
+website:
+  title: "Comments"
+  navbar:
+    left:
+      - index.qmd
+      - text: "Group 1 - 5"
+        menu:
+          - group01.md
+          - group02.md
+          - group03.md
+          - group04.md
+          - group05.md
+      - text: "Group 6 - 10"
+        menu:
+          - group06.md
+          - group07.md
+          - group08.md
+          - group09.md
+          - group10.md
+      - text: "Group 11 - 15"
+        menu:
+          - group11.md
+          - group12.md
+          - group13.md
+          - group14.md
+          - group15.md
+      - text: "Group 16 - 20"
+        menu:
+          - group16.md
+          - group17.md
+          - group18.md
+          - group19.md
+          - group20.md
+      - text: "Group 21 - 25"
+        menu:
+          - group21.md
+          - group22.md
+          - group23.md
+          - group24.md
+          - group25.md
+      - text: "Group 26 - 30"
+        menu:
+          - group26.md
+          - group27.md
+          - group28.md
+          - group29.md
+          - group30.md
+      - text: "Group 31 - 35"
+        menu:
+          - group31.md
+          - group32.md
+          - group33.md
+          - group34.md
+          - group35.md
+      - text: "Methods"
+        menu:
+          - merge-pr.qmd
+          - reformat.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

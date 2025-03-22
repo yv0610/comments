@@ -1,8 +1,13 @@
-# 合并 Pull Request
+# 处理 PR
+
+预计将会收到超过 200 条 Pull Request，因此需要使用 GitHub CLI 工具 `gh` 来合并 Pull Request，提高合并的工作效率。
+
+## 获取 PR 列表
 
 获取所有 Open 状态的 PR 列表，然后合并所有可合并的 PR。
 
 ```{r}
+#| eval: false
 # 获取 PR 列表
 cmd = "gh pr list -s open --json number,title,mergeable"
 prs = jsonlite::fromJSON(system(cmd, intern = TRUE)) |> dplyr::arrange(number)
@@ -10,9 +15,12 @@ prs = jsonlite::fromJSON(system(cmd, intern = TRUE)) |> dplyr::arrange(number)
 prs
 ```
 
+## 自动合并
+
 对于没有冲突的 PR，直接合并。
 
 ```{r}
+#| eval: false
 for (i in seq_len(nrow(prs))) {
   if (prs$mergeable[i] == "MERGEABLE") {
     cmd = paste("gh pr merge", prs$number[i], "--merge --auto")
@@ -21,9 +29,12 @@ for (i in seq_len(nrow(prs))) {
 }
 ```
 
+## 手动合并
+
 对于有冲突的 PR，需要手动解决冲突。
 
 ```{r}
+#| eval: false
 prs[prs$mergeable != "MERGEABLE", ]
 ```
 
@@ -31,8 +42,8 @@ prs[prs$mergeable != "MERGEABLE", ]
 
 ```bash
 git pull
-git fetch origin pull/123/head:pr-123  # 123 是 PR 号
-git merge pr-123
+git fetch origin pull/123/head:pr  # 123 是 PR 号
+git merge pr
 ```
 
 解决冲突后，提交合并。
@@ -43,5 +54,16 @@ git commit -m "Merge PR #123"
 git push
 ```
 
-## 统计 Commit 结果
+删掉本地分支。
 
+```bash
+git branch -d pr
+```
+
+将上面的操作简化为三行命令为：
+
+```bash
+git fetch origin pull/46/head:pr && git merge pr
+# 在这里打开冲突文件，人工解决冲突后，然后才能继续
+git commit -am 'fix' && git branch -d pr
+```
